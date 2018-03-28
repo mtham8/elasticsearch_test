@@ -58,6 +58,14 @@ def check_health():
     connections.get_connection().cluster.health()
 
 
+movie_url = 'http://www.omdbapi.com'
+movie_params = {
+    's': 'boy',
+    'type': 'movie',
+    'r': 'json'
+}
+
+
 def query_data():
     page = 1
     possible_more = True
