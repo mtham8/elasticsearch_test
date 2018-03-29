@@ -28,13 +28,21 @@ def create_doc(body):
 
 def search_by_title(title, index):
     s = Search(index=index).query('match', Title=title)
+
+    # by default, search only returns a subset of results
+    # to get all results, you must slice to the last item
+    total = s.count()
+    s = s[0:total]
+
     response = s.execute()
     for hit in response:
         print(hit.to_dict())
+    print('total search --> ', total)
 
 
 def check_health():
-    connections.get_connection().cluster.health()
+    health = connections.get_connection().cluster.health()
+    print('health --> ', health)
 
 
 def get_doc_count(index):
