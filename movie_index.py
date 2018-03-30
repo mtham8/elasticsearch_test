@@ -42,8 +42,14 @@ def generate_query(field, query, **kwargs):
 
 def match_query(field, query, index, **kwargs):
     q = generate_query(field=field, query=query, **kwargs)
-    print('query --> ', q)
+    print('match query --> ', q)
     return search_query(query=q, index=index, query_type='match')
+
+
+def match_phrase_prefix_query(field, query, index, **kwargs):
+    q = generate_query(field=field, query=query, **kwargs)
+    print('match_phrase_prefix query --> ', q)
+    return search_query(query=q, index=index, query_type='match_phrase_prefix')
 
 
 def search_query(query, query_type, index):

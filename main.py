@@ -1,5 +1,5 @@
 from query_data import query_data
-from movie_index import get_doc_count, match_query, check_health
+from movie_index import get_doc_count, match_query, match_phrase_prefix_query, check_health
 
 
 def main():
@@ -8,7 +8,11 @@ def main():
 
     index = 'omdb_movies'
     match_query(field='Title',
-                query='I love', index=index, max_expansions=30)
+                query='I love', index=index)
+
+    match_phrase_prefix_query(field='Title',
+                              query='I love', index=index, max_expansions=30)
+
     get_doc_count(index=index)
 
 
