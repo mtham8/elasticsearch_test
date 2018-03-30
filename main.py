@@ -1,14 +1,14 @@
 from query_data import query_data
-from movie_index import get_doc_count, search_by_title, check_health
+from movie_index import get_doc_count, match_query, check_health
 
 
 def main():
-    # query_data(search_term='power')
+    # query_data(search_term='big', page=260)
     # check_health()
 
     index = 'omdb_movies'
-    search_by_title(
-        title='hell', index=index)
+    match_query(field='Title',
+                query='I love', index=index, max_expansions=30)
     get_doc_count(index=index)
 
 

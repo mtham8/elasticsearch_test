@@ -1,4 +1,4 @@
-from elasticsearch_dsl import DocType, Text, connections, Search
+from elasticsearch_dsl import DocType, Text, connections, Search, Q
 
 connections.create_connection(hosts=['localhost'])
 
@@ -26,8 +26,28 @@ def create_doc(body):
     print('saved_doc --> ', saved_doc)
 
 
-def search_by_title(title, index):
-    s = Search(index=index).query('match', Title=title)
+def generate_query(field, query, **kwargs):
+    query_obj = {
+        field: {
+            'query': query
+        }
+    }
+    field_obj = query_obj[field]
+
+    for key, value in kwargs.items():
+        field_obj[key] = value
+
+    return query_obj
+
+
+def match_query(field, query, index, **kwargs):
+    q = generate_query(field=field, query=query, **kwargs)
+    print('query --> ', q)
+    return search_query(query=q, index=index, query_type='match')
+
+
+def search_query(query, query_type, index):
+    s = Search(index=index).query(query_type, **query)
 
     # by default, search only returns a subset of results
     # to get all results, you must slice to the last item
