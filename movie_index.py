@@ -76,18 +76,6 @@ def generate_multi_match_query(fields, query, **kwargs):
     return query_obj
 
 
-def generate_query_string_query(default_field, query, **kwargs):
-    query_obj = {
-        'default_field': default_field,
-        'query': query
-    }
-
-    for key, value in kwargs.items():
-        query_obj[key] = value
-
-    return query_obj
-
-
 def search_query(query, query_type, index):
     s = Search(index=index).query(query_type, **query)
 
