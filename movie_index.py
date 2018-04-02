@@ -26,7 +26,25 @@ def create_doc(body):
     print('saved_doc --> ', saved_doc)
 
 
-def generate_query(field, query, **kwargs):
+def match_query(field, query, index, **kwargs):
+    q = generate_match_query(field=field, query=query, **kwargs)
+    print('match query --> ', q)
+    return search_query(query=q, index=index, query_type='match')
+
+
+def match_phrase_prefix_query(field, query, index, **kwargs):
+    q = generate_match_query(field=field, query=query, **kwargs)
+    print('match_phrase_prefix query --> ', q)
+    return search_query(query=q, index=index, query_type='match_phrase_prefix')
+
+
+def multi_match_query(fields, query, index, **kwargs):
+    q = generate_multi_match_query(fields=fields, query=query, **kwargs)
+    print('multi_match_query --> ', q)
+    return search_query(query=q, index=index, query_type='multi_match')
+
+
+def generate_match_query(field, query, **kwargs):
     query_obj = {
         field: {
             'query': query
@@ -40,16 +58,16 @@ def generate_query(field, query, **kwargs):
     return query_obj
 
 
-def match_query(field, query, index, **kwargs):
-    q = generate_query(field=field, query=query, **kwargs)
-    print('match query --> ', q)
-    return search_query(query=q, index=index, query_type='match')
+def generate_multi_match_query(fields, query, **kwargs):
+    query_obj = {
+        'fields': fields,
+        'query': query
+    }
 
+    for key, value in kwargs.items():
+        query_obj[key] = value
 
-def match_phrase_prefix_query(field, query, index, **kwargs):
-    q = generate_query(field=field, query=query, **kwargs)
-    print('match_phrase_prefix query --> ', q)
-    return search_query(query=q, index=index, query_type='match_phrase_prefix')
+    return query_obj
 
 
 def search_query(query, query_type, index):

@@ -16,4 +16,4 @@ Example
 **When using `match_phrase_prefix` type, set `max_expansions` to limit the number of terms to be collected. Eg, if the prefix is `"a"` you may end up with thousands of terms, which
 is pretty meaningless.  Set max_expansions to (eg) `30` so that the user
 gets some response, but your server is not overwhelmed by too many
-clauses.**
+clauses. Default value for `max_expansions` is 50.**
