@@ -44,6 +44,12 @@ def multi_match_query(fields, query, index, **kwargs):
     return search_query(query=q, index=index, query_type='multi_match')
 
 
+def query_string_query(fields, query, index, **kwargs):
+    q = generate_multi_match_query(fields=fields, query=query, **kwargs)
+    print('query_string_query --> ', q)
+    return search_query(query=q, index=index, query_type='query_string')
+
+
 def generate_match_query(field, query, **kwargs):
     query_obj = {
         field: {
@@ -61,6 +67,18 @@ def generate_match_query(field, query, **kwargs):
 def generate_multi_match_query(fields, query, **kwargs):
     query_obj = {
         'fields': fields,
+        'query': query
+    }
+
+    for key, value in kwargs.items():
+        query_obj[key] = value
+
+    return query_obj
+
+
+def generate_query_string_query(default_field, query, **kwargs):
+    query_obj = {
+        'default_field': default_field,
         'query': query
     }
 
@@ -92,3 +110,8 @@ def check_health():
 def get_doc_count(index):
     s = Search(index=index).count()
     print('doc count --> ', s)
+
+
+def view_raw_mapping(doc_type):
+    mapping = doc_type._doc_type.mapping.to_dict()
+    print('mapping --> ', mapping)
