@@ -50,6 +50,24 @@ def query_string_query(fields, query, index, **kwargs):
     return search_query(query=q, index=index, query_type='query_string')
 
 
+def term_query(field, query, index, **kwargs):
+    q = generate_term_query(field=field, query=query, **kwargs)
+    print('term query --> ', q)
+    return search_query(query=q, index=index, query_type='term')
+
+
+def generate_term_query(field, query, **kwargs):
+    query_obj = {
+        field: query
+    }
+    field_obj = query_obj[field]
+
+    for key, value in kwargs.items():
+        field_obj[key] = value
+
+    return query_obj
+
+
 def generate_match_query(field, query, **kwargs):
     query_obj = {
         field: {
@@ -77,7 +95,13 @@ def generate_multi_match_query(fields, query, **kwargs):
 
 
 def search_query(query, query_type, index):
-    s = Search(index=index).query(query_type, **query)
+    # TODO: create a base DocType class with method, get_index_by_name('Movies')
+    # TODO: create ability to search across indexes, using Search()
+
+    s = Movies.search()
+    # adding dfs_query_then_fetch param improves overall doc score
+    # s = s.query(query_type, **query).params(search_type='dfs_query_then_fetch')
+    s = s.query(query_type, **query)
 
     # by default, search only returns a subset of results
     # to get all results, you must slice to the last item
@@ -85,9 +109,12 @@ def search_query(query, query_type, index):
     s = s[0:total]
 
     response = s.execute()
-    for hit in response:
-        print(hit.to_dict())
-    print('total search --> ', total)
+    for h in response:
+        print(h.to_dict())
+        print('%s returned with score %f' % (
+            h.meta.id, h.meta.score))
+    hits = response.hits.total
+    print('hits --> ', hits)
 
 
 def check_health():
