@@ -42,6 +42,44 @@ def term_query(field, query, index, **kwargs):
     return search_query(query=q, index=index, query_type='term')
 
 
+def range_query(field, index, **kwargs):
+    q = generate_range_query(field=field, **kwargs)
+    print('range query --> ', q)
+    return search_query(query=q, index=index, query_type='range')
+
+
+def prefix_query(field, query, index, **kwargs):
+    q = generate_prefix_query(field=field, query=query, **kwargs)
+    print('prefix query --> ', q)
+    return search_query(query=q, index=index, query_type='prefix')
+
+
+def generate_prefix_query(field, query, **kwargs):
+    query_obj = {
+        field: {
+            'value': query
+        }
+    }
+    field_obj = query_obj[field]
+
+    for key, value in kwargs.items():
+        field_obj[key] = value
+
+    return query_obj
+
+
+def generate_range_query(field, **kwargs):
+    query_obj = {
+        field: {}
+    }
+    field_obj = query_obj[field]
+
+    for key, value in kwargs.items():
+        field_obj[key] = value
+
+    return query_obj
+
+
 def generate_term_query(field, query, **kwargs):
     query_obj = {
         field: query
@@ -86,13 +124,15 @@ def search_query(query, query_type, index):
 
     s = Search(index=index)
     # adding dfs_query_then_fetch param improves overall doc score
+
     # s = s.query(query_type, **query).params(search_type='dfs_query_then_fetch')
     s = s.query(query_type, **query)
 
     # by default, search only returns a subset of results
     # to get all results, you must slice to the last item
-    total = s.count()
-    s = s[0:total]
+
+    # total = s.count()
+    # s = s[0:total]
 
     response = s.execute()
     for h in response:
