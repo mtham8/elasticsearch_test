@@ -11,7 +11,7 @@ movie_params = {
 }
 
 
-def query_data(search_term, page=1):
+def query_data(search_term, index, page=1):
     page = page
     possible_more = True
 
@@ -25,7 +25,7 @@ def query_data(search_term, page=1):
 
             for movie in res['Search']:
                 print('movie --> ', movie)
-                create_doc(body=movie)
+                create_doc(body=movie, index=index)
             print('page --> ', page)
             page += 1
             possible_more = True

@@ -3,12 +3,15 @@ from movie_test.methods import get_doc_count, match_query, match_phrase_prefix_q
 
 
 def main():
-    query_data(search_term='small', page=62)
+    index = 'single_shard_movies'
+    query_data(search_term='hell', index=index)
+
+    index = 'multi_shard_movies'
+    query_data(search_term='hell', index=index)
     # check_health()
 
-    index = 'dummy_movies'
     # match_query(field='Title',
-    #             query='blood', index=index)
+    #             query='great & small', index=index)
 
     # term_query(field='Title',
     #            query='Magic Is Alive', index=index)
@@ -25,6 +28,8 @@ def main():
     # get_doc_count(index=index)
 
     # view_raw_mapping(doc_type=Movies)
+
+    # import movie_test.index_settings
 
 
 if __name__ == '__main__':

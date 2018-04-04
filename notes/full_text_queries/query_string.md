@@ -7,12 +7,12 @@ The `query_string` query parses the input and splits around operators. Each text
 Example
 ```json
 {
-    "query": {
-        "query_string" : {
-            "default_field" : "content",
-            "query" : "(new york city) OR (big apple)"
-        }
+  "query": {
+    "query_string" : {
+      "default_field" : "content",
+      "query" : "(new york city) OR (big apple)"
     }
+  }
 }
 ```
 This will split into `new york city` and `big apple` and each part is then analyzed independently by the analyzer configured for the field.
@@ -30,9 +30,9 @@ Example
 {
   "query": {
     "simple_query_string" : {
-        "query": "\"fried eggs\" +(eggplant | potato) -frittata",
-        "fields": ["title^5", "body"],
-        "default_operator": "and"
+      "query": "\"fried eggs\" +(eggplant | potato) -frittata",
+      "fields": ["title^5", "body"],
+      "default_operator": "and"
     }
   }
 }

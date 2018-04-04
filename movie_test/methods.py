@@ -4,9 +4,10 @@ from doctype import Movies
 connections.create_connection(hosts=['localhost'])
 
 
-def create_doc(body):
+def create_doc(body, index):
     movies = Movies(**body)
-    movies.meta.index = 'dummy_movies'
+    movies.meta.index = index
+    movies.meta.id = body['imdbID']
     saved_doc = movies.save()
     print('saved_doc --> ', saved_doc)
 

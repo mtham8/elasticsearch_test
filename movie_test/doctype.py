@@ -1,4 +1,5 @@
 from elasticsearch_dsl import DocType, Text, analyzer
+from elasticsearch_dsl.utils import ObjectBase, AttrDict, merge, DOC_META_FIELDS, META_FIELDS
 
 
 class Movies(DocType):

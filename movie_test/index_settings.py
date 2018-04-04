@@ -3,13 +3,20 @@ from doctype import Movies
 
 connections.create_connection(hosts=['localhost'])
 
-dummy_movies = Index('dummy_movies')
+single_shard_movies = Index('single_shard_movies')
 
-dummy_movies.settings(
+single_shard_movies.settings(
     number_of_shards=1,
     number_of_replicas=0
 )
 
-dummy_movies.doc_type(Movies)
+single_shard_movies.doc_type(Movies)
 
-# dummy_movies.create()
+multi_shard_movies = single_shard_movies.clone('multi_shard_movies')
+multi_shard_movies.settings(
+    number_of_shards=3,
+    number_of_replicas=0
+)
+
+single_shard_movies.create()
+multi_shard_movies.create()

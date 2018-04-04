@@ -5,11 +5,11 @@ The  `match_phrase_prefix` query analyzes the text and creates a `phrase` query 
 Example
 ```json
 {
-    "query": {
-        "match_phrase_prefix" : {
-            "message" : "quick brown f"
-        }
+  "query": {
+    "match_phrase_prefix" : {
+        "message" : "quick brown f"
     }
+  }
 }
 ```
 

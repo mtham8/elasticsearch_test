@@ -5,11 +5,11 @@
 Example
 ```json
 {
-    "query": {
-        "match" : {
-            "message" : "this is a test"
-        }
+  "query": {
+    "match" : {
+        "message" : "this is a test"
     }
+  }
 }
 ```
 
@@ -32,14 +32,14 @@ Fuzzy transpositions `(ab → ba)` are allowed by default but can be disabled by
 Example with additional parameters
 ```json
 {
-    "query": {
-        "match" : {
-            "message" : {
-                "query" : "this is a test",
-                "operator" : "and"
-            }
-        }
+  "query": {
+    "match" : {
+      "message" : {
+          "query" : "this is a test",
+          "operator" : "and"
+      }
     }
+  }
 }
 ```
 ## Cutoff frequency
@@ -53,13 +53,13 @@ The cutoff_frequency can either be relative to the total number of documents if 
 Here is an example showing a query composed of stopwords exclusively. Words that have a document frequency greater than 0.1% will be treated as common terms.
 ```json
 {
-    "query": {
-        "match" : {
-            "message" : {
-                "query" : "to be or not to be",
-                "cutoff_frequency" : 0.001
-            }
-        }
+  "query": {
+    "match" : {
+      "message" : {
+          "query" : "to be or not to be",
+          "cutoff_frequency" : 0.001
+      }
     }
+  }
 }
 ```
