@@ -1,7 +1,7 @@
 import requests
 
 from private_settings import *
-from movie_index import create_doc
+from movie_test.methods import create_doc
 
 movie_url = 'http://www.omdbapi.com'
 movie_params = {

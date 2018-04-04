@@ -1,27 +1,12 @@
-from elasticsearch_dsl import DocType, Text, connections, Search, Q
+from elasticsearch_dsl import connections, Search, Q
+from doctype import Movies
 
 connections.create_connection(hosts=['localhost'])
 
 
-class Movies(DocType):
-    Poster = Text()
-    Title = Text()
-    Type = Text()
-    Year = Text()
-    imdbID = Text()
-
-    class Meta:
-        index = 'omdb_movies'
-
-    def save(self, **kwargs):
-        return super(Movies, self).save(**kwargs)
-
-
-Movies.init()
-
-
 def create_doc(body):
-    movies = Movies(body)
+    movies = Movies(**body)
+    movies.meta.index = 'dummy_movies'
     saved_doc = movies.save()
     print('saved_doc --> ', saved_doc)
 
@@ -95,10 +80,10 @@ def generate_multi_match_query(fields, query, **kwargs):
 
 
 def search_query(query, query_type, index):
-    # TODO: create a base DocType class with method, get_index_by_name('Movies')
+    # TODO: create a base DocType class with method, get_index_by_name('dummy_movies')
     # TODO: create ability to search across indexes, using Search()
 
-    s = Movies.search()
+    s = Search(index=index)
     # adding dfs_query_then_fetch param improves overall doc score
     # s = s.query(query_type, **query).params(search_type='dfs_query_then_fetch')
     s = s.query(query_type, **query)
@@ -130,3 +115,6 @@ def get_doc_count(index):
 def view_raw_mapping(doc_type):
     mapping = doc_type._doc_type.mapping.to_dict()
     print('mapping --> ', mapping)
+
+# get shards info
+# curl -XGET 'localhost:9200/_cat/shards?pretty'
