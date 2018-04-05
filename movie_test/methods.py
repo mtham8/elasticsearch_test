@@ -54,6 +54,20 @@ def prefix_query(field, query, index, **kwargs):
     return search_query(query=q, index=index, query_type='prefix')
 
 
+def ids_query(query, index):
+    q = generate_ids_query(query=query)
+    print('ids query --> ', q)
+    return search_query(query=q, index=index, query_type='ids')
+
+
+def generate_ids_query(query):
+    query_obj = {
+        'values': query
+    }
+
+    return query_obj
+
+
 def generate_prefix_query(field, query, **kwargs):
     query_obj = {
         field: {

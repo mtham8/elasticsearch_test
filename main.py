@@ -1,5 +1,5 @@
 from query_data import query_data
-from movie_test.methods import get_doc_count, match_query, match_phrase_prefix_query, check_health, multi_match_query, Movies, query_string_query, view_raw_mapping, term_query, range_query, prefix_query
+from movie_test.methods import get_doc_count, match_query, match_phrase_prefix_query, check_health, multi_match_query, Movies, query_string_query, view_raw_mapping, term_query, range_query, prefix_query, ids_query
 
 
 def main():
@@ -28,7 +28,9 @@ def main():
 
     # range_query(field='Year', gte=1990, lte=2000, index=index)
 
-    prefix_query(field='Title', query='sma', index=index)
+    # prefix_query(field='Title', query='sma', index=index)
+
+    ids_query(query=['tt0120875'], index=index)
 
     # get_doc_count(index=index)
 

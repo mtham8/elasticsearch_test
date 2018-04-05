@@ -4,7 +4,7 @@ from elasticsearch_dsl import DocType, Text, analyzer
 # then create a method, get_index_by_name(index_name)
 
 
-class Movies(DocType):
+class FlatUser(DocType):
     Poster = Text()
     Title = Text()
     Type = Text()
@@ -12,4 +12,4 @@ class Movies(DocType):
     imdbID = Text()
 
     def save(self, **kwargs):
-        return super(Movies, self).save(**kwargs)
+        return super(FlatUser, self).save(**kwargs)
