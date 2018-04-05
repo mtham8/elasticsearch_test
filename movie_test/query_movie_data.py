@@ -1,7 +1,8 @@
 import requests
 
-from private_settings import *
-from movie_test.methods import create_doc
+from private_settings import omdb_apiKey
+from query_methods import create_doc
+from doctype import Movies
 
 movie_url = 'http://www.omdbapi.com'
 movie_params = {
@@ -11,7 +12,7 @@ movie_params = {
 }
 
 
-def query_data(search_term, index, page=1):
+def query_movie_data(search_term, index, page=1):
     page = page
     possible_more = True
 
@@ -25,7 +26,9 @@ def query_data(search_term, index, page=1):
 
             for movie in res['Search']:
                 print('movie --> ', movie)
-                create_doc(body=movie, index=index)
+                doc_id = movie['imdbID']
+                create_doc(body=movie, index=index,
+                           doctype=Movies, doc_id=doc_id)
             print('page --> ', page)
             page += 1
             possible_more = True

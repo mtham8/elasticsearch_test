@@ -1,0 +1,61 @@
+{
+  "name": "elasticsearch_test",
+  "version": "1.0.0",
+  "description": "elasticsearch_test",
+  "main": "index.js",
+  "scripts": {
+    "build-dev": "webpack",
+    "start": "webpack --watch & webpack-dev-server",
+    "build-prod": "webpack -p",
+    "precommit": "lint-staged",
+    "format": "prettier-standard '{src}/**/*.{js,jsx}'"
+  },
+  "lint-staged": {
+    "{src}/**/*.{js,jsx}": [
+      "prettier-standard",
+      "git add"
+    ]
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/mtham8/elasticsearch_test.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/mtham8/elasticsearch_test/issues"
+  },
+  "homepage": "https://github.com/mtham8/elasticsearch_test#readme",
+  "devDependencies": {
+    "babel-core": "^6.26.0",
+    "babel-loader": "^7.1.2",
+    "babel-polyfill": "^6.26.0",
+    "babel-preset-env": "^1.6.0",
+    "babel-preset-react": "^6.16.0",
+    "babel-preset-react-optimize": "^1.0.1",
+    "babel-preset-stage-0": "^6.16.0",
+    "babel-preset-stage-3": "^6.22.0",
+    "babel-register": "^6.26.0",
+    "css-loader": "^0.28.7",
+    "extract-text-webpack-plugin": "^3.0.2",
+    "file-loader": "^0.11.2",
+    "husky": "^0.14.3",
+    "jsdom": "^11.2.0",
+    "json-loader": "^0.5.7",
+    "jsx-loader": "^0.13.2",
+    "lint-staged": "^6.0.0",
+    "node-sass": "^4.6.1",
+    "prettier-standard": "^8.0.0",
+    "prop-types": "^15.5.8",
+    "sass-loader": "^6.0.6",
+    "style-loader": "^0.18.2",
+    "webpack": "^3.6.0",
+    "webpack-dev-server": "^2.8.2"
+  },
+  "dependencies": {
+    "axios": "^0.16.0",
+    "react": "^16.3.1",
+    "react-dom": "^16.3.1",
+    "moment": "^2.17.0"
+  }
+}

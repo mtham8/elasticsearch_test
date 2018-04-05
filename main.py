@@ -1,15 +1,40 @@
-from movie_test.query_data import query_data
-from movie_test.methods import get_doc_count, match_query, match_phrase_prefix_query, check_health, multi_match_query, Movies, query_string_query, view_raw_mapping, term_query, range_query, prefix_query, ids_query
+from elasticsearch_dsl import Index
+
+from movie_test.query_movie_data import query_movie_data
+from query_methods import match_query, match_phrase_prefix_query, multi_match_query, query_string_query, term_query, range_query, prefix_query, ids_query
+
+from stats_methods import view_raw_mapping, get_doc_count, check_health
+
+from flat_user_test.query_flat_user import query_flat_user
+from flat_user_test.doctype import FlatUser
 
 
-def main():
-    # index = 'single_shard_movies'
-    # query_data(search_term='small', index=index, page=22)
+def flat_user_test():
+    index = 'flat_user'
 
-    index = 'multi_shard_movies'
-    query_data(search_term='small', index=index)
+    doctype = FlatUser
+    query_flat_user(index=index, doctype=doctype)
 
-    # check_health()
+    # range_query(field='created_at', gte=2015, index=index)
+    # id = '89000f86-7741-47d2-b2ee-54a430121d7c'
+    # ids_query(query=[id], index=index)
+
+
+def elasticsearch_methods():
+    index = 'flat_user'
+    get_doc_count(index=index)
+
+    view_raw_mapping(index=index)
+
+    check_health()
+
+
+def movie_test():
+    index = 'single_shard_movies'
+    query_movie_data(search_term='small', index=index, page=22)
+
+    # index = 'multi_shard_movies'
+    # query_movie_data(search_term='small', index=index)
 
     # match_query(field='Title',
     #             query='great & small', index=index)
@@ -30,12 +55,12 @@ def main():
 
     # prefix_query(field='Title', query='sma', index=index)
 
-    ids_query(query=['tt0120875'], index=index)
-
-    # get_doc_count(index=index)
-
-    # view_raw_mapping(doc_type=Movies)
+    # ids_query(query=['tt0120875'], index=index)
 
 
 if __name__ == '__main__':
-    main()
+    # movie_test()
+
+    # elasticsearch_methods()
+
+    flat_user_test()

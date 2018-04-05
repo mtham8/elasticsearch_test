@@ -1,14 +1,13 @@
-from elasticsearch_dsl import connections, Search, Q
-from doctype import Movies
+from elasticsearch_dsl import connections, Search, Q, Index
 
 connections.create_connection(hosts=['localhost'])
 
 
-def create_doc(body, index):
-    movies = Movies(**body)
-    movies.meta.index = index
-    movies.meta.id = body['imdbID']
-    saved_doc = movies.save()
+def create_doc(body, index, doctype, doc_id):
+    d = doctype(**body)
+    d.meta.index = index
+    d.meta.id = doc_id
+    saved_doc = d.save()
     print('saved_doc --> ', saved_doc)
 
 
@@ -155,21 +154,3 @@ def search_query(query, query_type, index):
             h.meta.id, h.meta.score))
     hits = response.hits.total
     print('hits --> ', hits)
-
-
-def check_health():
-    health = connections.get_connection().cluster.health()
-    print('health --> ', health)
-
-
-def get_doc_count(index):
-    s = Search(index=index).count()
-    print('doc count --> ', s)
-
-
-def view_raw_mapping(doc_type):
-    mapping = doc_type._doc_type.mapping.to_dict()
-    print('mapping --> ', mapping)
-
-# get shards info
-# curl -XGET 'localhost:9200/_cat/shards?pretty'
