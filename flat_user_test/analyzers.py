@@ -10,4 +10,4 @@ autocomplete_search_analyzer = analyzer(
     'autocomplete_search', tokenizer='lowercase')
 
 email_analyzer = analyzer(
-    'email_url', tokenizer=tokenizer('email_url', 'uax_url_email', max_token_length=5))
+    'email_url', tokenizer='uax_url_email', filter=['lowercase', 'unique'])

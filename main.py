@@ -1,4 +1,4 @@
-from query_data import query_data
+from movie_test.query_data import query_data
 from movie_test.methods import get_doc_count, match_query, match_phrase_prefix_query, check_health, multi_match_query, Movies, query_string_query, view_raw_mapping, term_query, range_query, prefix_query, ids_query
 
 
@@ -7,9 +7,9 @@ def main():
     # query_data(search_term='small', index=index, page=22)
 
     index = 'multi_shard_movies'
-    # query_data(search_term='small', index=index)
+    query_data(search_term='small', index=index)
 
-    check_health()
+    # check_health()
 
     # match_query(field='Title',
     #             query='great & small', index=index)

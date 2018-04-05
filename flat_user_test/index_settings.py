@@ -12,10 +12,4 @@ flat_user.settings(
 
 flat_user.doc_type(FlatUser)
 
-autocomplete_analyzer = analyzer('autocomplete',
-                                 tokenizer=tokenizer(
-                                     'autocomplete', 'edge_ngram', min_gram=3, max_gram=10, token_chars=['letter']),
-                                 filter=['letter']
-                                 )
-
 flat_user.create()
