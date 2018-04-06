@@ -148,9 +148,10 @@ def search_query(query, query_type, index):
     # s = s[0:total]
 
     response = s.execute()
-    for h in response:
-        print(h.to_dict())
-        print('%s returned with score %f' % (
-            h.meta.id, h.meta.score))
+    # for h in response:
+    #     print(h.to_dict())
+    #     print('%s returned with score %f' % (
+    #         h.meta.id, h.meta.score))
     hits = response.hits.total
     print('hits --> ', hits)
+    return response.to_dict()

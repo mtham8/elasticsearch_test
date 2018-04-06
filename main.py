@@ -1,9 +1,10 @@
 from elasticsearch_dsl import Index
 
 from movie_test.query_movie_data import query_movie_data
-from query_methods import match_query, match_phrase_prefix_query, multi_match_query, query_string_query, term_query, range_query, prefix_query, ids_query
 
-from stats_methods import view_raw_mapping, get_doc_count, check_health
+from flat_user_test.query_methods import match_query, match_phrase_prefix_query, multi_match_query, query_string_query, term_query, range_query, prefix_query, ids_query
+
+from flat_user_test.stats_methods import view_raw_mapping, get_doc_count, check_health
 
 from flat_user_test.query_flat_user import query_flat_user
 from flat_user_test.doctype import FlatUser

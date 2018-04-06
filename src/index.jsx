@@ -3,6 +3,7 @@ import React from 'react'
 import ReactDOM from 'react-dom'
 
 import App from './app/app'
+import './app/_app.scss'
 
 const mute = (function () {
   const iterateLogs = function (config) {

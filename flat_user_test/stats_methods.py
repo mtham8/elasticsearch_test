@@ -13,10 +13,11 @@ def get_doc_count(index):
     print('doc count --> ', s)
 
 
-def view_raw_mapping(index):
+def get_mapping(index):
     i = Index(index)
     mapping = i.get_mapping()
-    print('mapping --> ', mapping)
+    mappings = mapping[index]['mappings']['doc']['properties'].keys()
+    return mappings
 
 # get shards info
 # curl -XGET 'localhost:9200/_cat/shards?pretty'

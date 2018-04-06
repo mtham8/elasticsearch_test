@@ -11,7 +11,7 @@
     "format": "prettier-standard '{src}/**/*.{js,jsx}'"
   },
   "lint-staged": {
-    "{src}/**/*.{js,jsx}": [
+    "src/**/*.{js,jsx}": [
       "prettier-standard",
       "git add"
     ]

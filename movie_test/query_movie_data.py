@@ -1,7 +1,7 @@
 import requests
 
 from private_settings import omdb_apiKey
-from query_methods import create_doc
+from flat_user_test.query_methods import create_doc
 from doctype import Movies
 
 movie_url = 'http://www.omdbapi.com'
