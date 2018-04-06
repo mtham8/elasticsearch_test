@@ -14,8 +14,8 @@ app = Flask(__name__)
 CORS(app)
 
 
-@app.route('/get_columns', methods=['GET'])
-def get_columns():
+@app.route('/get_fields', methods=['GET'])
+def get_fields():
     mapping = get_mapping(index='flat_user')
     return jsonify(mapping)
 

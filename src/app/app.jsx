@@ -1,61 +1,42 @@
-import React, { Component } from 'react'
+import React, { PureComponent } from 'react'
 
-import { getColumns } from './fetchMethods'
-export default class App extends Component {
+import FieldDropdown from './components/FieldDropdown'
+import QueryInput from './components/QueryInput'
+import ResultsList from './components/ResultsList'
+
+import { search } from './helpers/fetchMethods'
+export default class App extends PureComponent {
   state = {
-    column: ''
+    field: 'username',
+    query: '',
+    results: [],
+    hits: 0
   }
 
-  selectColumn = ({ id, value }) => {
+  handleChange = ({ target: { id, value } }) => {
     this.setState({ [id]: value })
   }
 
-  render () {
-    const { column } = this.state
+  handleQuery = async event => {
+    this.handleChange(event)
+    const { target: { value } } = event
+    const { field } = this.state
 
-    return (
-      <div>
-        <ColumnDropdown value={column} selectColumn={this.selectColumn} />
-      </div>
-    )
-  }
-}
-
-class ColumnDropdown extends Component {
-  state = {
-    columns: [],
-    isLoading: false
-  }
-
-  componentWillMount () {
-    const columns = getColumns()
-    this.setState({ isLoading: true })
-    if (columns) {
-      this.setState({ columns, isLoading: false })
+    const results = await search({ field, query: value })
+    if (results) {
+      const { data, hits } = results
+      this.setState({ results: data, hits })
     }
   }
 
-  generateOptions = () => {
-    const { columns } = this.state
-    return columns.map(column => (
-      <option key={column} value={column}>
-        {column}
-      </option>
-    ))
-  }
-
   render () {
-    const { value, selectColumn } = this.props
-    const { isLoading, columns } = this.state
+    const { field, query, results, hits } = this.state
 
     return (
-      <div>
-        {isLoading && <div>Loading...</div>}
-        {columns.length > 0 && (
-          <select id='column' value={value} onChange={selectColumn}>
-            {this.generateOptions()}
-          </select>
-        )}
+      <div className='search'>
+        <FieldDropdown field={field} handleChange={this.handleChange} />
+        <QueryInput query={query} handleQuery={this.handleQuery} />
+        <ResultsList results={results} field={field} hits={hits} />
       </div>
     )
   }

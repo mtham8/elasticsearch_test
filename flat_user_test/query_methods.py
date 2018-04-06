@@ -154,4 +154,9 @@ def search_query(query, query_type, index):
     #         h.meta.id, h.meta.score))
     hits = response.hits.total
     print('hits --> ', hits)
-    return response.to_dict()
+
+    response = {
+        'hits': hits,
+        'data': [h.to_dict() for h in response]
+    }
+    return response
