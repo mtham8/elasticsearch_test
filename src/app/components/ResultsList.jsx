@@ -26,17 +26,15 @@ export default class ResultsList extends PureComponent {
       const { username } = result
       return (
         <div key={index} className='result'>
-          <div>
-            <div className='expanded-detail'>
-              Username: {username}
-              <div className='fill' />
-              <button onClick={() => this.handleClick(index)}>
-                {showUser === index && 'HIDE'}
-                {showUser !== index && 'SHOW'}
-              </button>
-            </div>
-            <div>Match: {result[field]}</div>
+          <div className='expanded-detail'>
+            Username: {username}
+            <div className='fill' />
+            <button onClick={() => this.handleClick(index)}>
+              {showUser === index && 'HIDE'}
+              {showUser !== index && 'SHOW'}
+            </button>
           </div>
+          <div>Match: {result[field]}</div>
         </div>
       )
     })

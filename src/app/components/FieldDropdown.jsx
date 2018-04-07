@@ -16,7 +16,7 @@ export default class FieldDropdown extends PureComponent {
     isLoading: true
   }
 
-  async componentWillMount () {
+  async componentDidMount () {
     const fields = await getFields()
     if (fields) {
       this.setState({ fields, isLoading: false })
