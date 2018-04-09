@@ -1,9 +1,9 @@
-import React, { PureComponent } from 'react'
+import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 
 const { array, string, number } = PropTypes
 
-export default class ResultsList extends PureComponent {
+export default class ResultsList extends Component {
   static propTypes = {
     results: array,
     field: string,

@@ -7,7 +7,7 @@ import ResultsList from './components/ResultsList'
 import { search } from './helpers/fetchMethods'
 export default class App extends PureComponent {
   state = {
-    field: 'username',
+    field: '',
     query: '',
     results: [],
     hits: 0

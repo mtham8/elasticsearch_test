@@ -8,7 +8,7 @@ def query_flat_user(index, doctype):
     q = QueryData()
     for user in q.loop_query_data():
         if user != None:
-            doc_id = user['profile_uuid']
+            doc_id = user['uuid']
             create_doc(body=user, index=index, doctype=doctype, doc_id=doc_id)
 
 

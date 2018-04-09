@@ -1,4 +1,5 @@
 from elasticsearch_dsl import connections, Search, Index
+from elasticsearch import Elasticsearch
 
 connections.create_connection(hosts=['localhost'])
 
@@ -21,3 +22,20 @@ def get_mapping(index):
 
 # get shards info
 # curl -XGET 'localhost:9200/_cat/shards?pretty'
+
+
+def analyze_match_query(index, field, query, results):
+    body = {
+        "query": {
+            "match_phrase_prefix": {
+                field: {
+                    "query": query
+                }
+            }
+        }
+    }
+    es = Elasticsearch([{'host': 'localhost', 'port': 9200}])
+    for result in results:
+        response = es.explain(index=index, body=body, doc_type='doc',
+                              id=result['uuid'])
+        print('explain response --> ', response)
