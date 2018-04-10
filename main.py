@@ -11,14 +11,16 @@ from flat_user_test.doctype import FlatUser
 
 
 def flat_user_test():
-    index = 'flat_user'
+    # index = 'flat_user'
 
-    doctype = FlatUser
-    query_flat_user(index=index, doctype=doctype)
+    # doctype = FlatUser
+    # query_flat_user(index=index, doctype=doctype)
 
     # range_query(field='created_at', gte=2015, index=index)
     # id = '89000f86-7741-47d2-b2ee-54a430121d7c'
     # ids_query(query=[id], index=index)
+
+    import flat_user_test.index_settings
 
 
 def elasticsearch_methods():

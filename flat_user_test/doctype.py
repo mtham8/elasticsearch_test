@@ -1,5 +1,5 @@
 from elasticsearch_dsl import DocType, Text, Date, Float, Boolean, Keyword, Integer
-from analyzers import autocomplete, autocomplete_search, email
+from analyzers import autocomplete, email_analyzer, autocomplete_search, address_search, postcode, postcode_search, suffix
 
 # abstraction of this should require index_name = <index_name>
 # then create a class method, get_index_by_name(index_name)
@@ -20,32 +20,30 @@ class FlatUser(DocType):
     annual_usage_percentage = Float()
 
     best_address = Text(analyzer=autocomplete,
-                        search_analyzer=autocomplete_search)
+                        search_analyzer=address_search)
 
     best_address_apartment = Text(analyzer=autocomplete,
                                   search_analyzer=autocomplete_search)
-    best_address_zipcode = Text(analyzer=autocomplete,
-                                search_analyzer=autocomplete_search)
+    best_address_zipcode = Text(analyzer=postcode,
+                                search_analyzer=postcode_search)
 
     created_at = Float()
     crm_last_updated = Float()
-    crm_update_version = Text(analyzer=autocomplete,
-                              search_analyzer=autocomplete_search)
-    crm_updating_error_count = Text(analyzer=autocomplete,
-                                    search_analyzer=autocomplete_search)
+    crm_update_version = Text(analyzer='keyword')
+    crm_updating_error_count = Text(analyzer='keyword')
     crm_updating_error_list = Text(analyzer=autocomplete,
                                    search_analyzer=autocomplete_search)
+
     dashboard_mode = Text(analyzer=autocomplete,
                           search_analyzer=autocomplete_search)
-    email = Text(analyzer=email)
+    email = Text(analyzer=email_analyzer, search_analyzer=autocomplete_search)
+
     first_name = Text(analyzer=autocomplete,
                       search_analyzer=autocomplete_search)
 
-    gbc_cisr_id = Text(analyzer=autocomplete,
-                       search_analyzer=autocomplete_search)
+    gbc_cisr_id = Text(analyzer=suffix)
     gbc_count = Float()
-    gbc_signup = Text(analyzer=autocomplete,
-                      search_analyzer=autocomplete_search)
+    gbc_signup = Text(analyzer='keyword')
     gbc_signup_date = Float()
     gbc_still_valid = Text(analyzer=autocomplete,
                            search_analyzer=autocomplete_search)
@@ -58,13 +56,12 @@ class FlatUser(DocType):
     green_button_datastream_uuid = Text(analyzer=autocomplete,
                                         search_analyzer=autocomplete_search)
     green_button_gateway_address = Text(analyzer=autocomplete,
-                                        search_analyzer=autocomplete_search)
+                                        search_analyzer=address_search)
     green_button_gateway_count = Float()
     green_button_gateway_uuid = Text(analyzer=autocomplete,
                                      search_analyzer=autocomplete_search)
 
-    has_solar = Text(analyzer=autocomplete,
-                     search_analyzer=autocomplete_search)
+    has_solar = Text(analyzer='keyword')
     house_count = Float()
     house_id = Float()
     house_id = Float()
@@ -128,8 +125,7 @@ class FlatUser(DocType):
     rainforest_first_heartbeat = Float()
     rainforest_gateway_count = Float()
     rainforest_last_heartbeat = Float()
-    rainforest_mac_id = Text(analyzer=autocomplete,
-                             search_analyzer=autocomplete_search)
+    rainforest_mac_id = Text(analyzer=suffix)
     rainforest_status_code = Text(analyzer=autocomplete,
                                   search_analyzer=autocomplete_search)
     rainforest_uuid = Text(analyzer=autocomplete,
@@ -138,8 +134,7 @@ class FlatUser(DocType):
     telegesis_first_heartbeat = Float()
     telegesis_gateway_count = Float()
     telegesis_last_heartbeat = Float()
-    telegesis_mac_id = Text(analyzer=autocomplete,
-                            search_analyzer=autocomplete_search)
+    telegesis_mac_id = Text(analyzer=suffix)
     telegesis_status_code = Text(analyzer=autocomplete,
                                  search_analyzer=autocomplete_search)
     telegesis_uuid = Text(analyzer=autocomplete,
@@ -149,7 +144,8 @@ class FlatUser(DocType):
     tracking_number_human = Text(analyzer=autocomplete,
                                  search_analyzer=autocomplete_search)
 
-    username = Text(analyzer=email)
+    username = Text(analyzer=email_analyzer,
+                    search_analyzer=autocomplete_search)
 
     utility_company = Text(analyzer=autocomplete,
                            search_analyzer=autocomplete_search)
@@ -193,8 +189,7 @@ class FlatUser(DocType):
 
     best_hourly_gateway_uid = Text(analyzer=autocomplete,
                                    search_analyzer=autocomplete_search)
-    best_realtime_gateway_uid = Text(analyzer=autocomplete,
-                                     search_analyzer=autocomplete_search)
+    best_realtime_gateway_uid = Text(analyzer=suffix)
 
     has_ev = Boolean()
     has_home_battery = Boolean()

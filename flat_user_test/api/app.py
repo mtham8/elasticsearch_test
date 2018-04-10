@@ -13,19 +13,22 @@ from flat_user_test.query_methods import match_phrase_prefix_query, match_query
 app = Flask(__name__)
 CORS(app)
 
+index = 'flat_user'
+index = 'flat_user_2'
+index = 'flat_user_3'
+
 
 @app.route('/get_fields', methods=['GET'])
 def get_fields():
-    mapping = get_mapping(index='flat_user')
+    mapping = get_mapping(index=index)
     return jsonify(mapping)
 
 
 @app.route('/search', methods=['POST'])
 def search():
-    index = 'flat_user'
     field = request.json['field']
     query = request.json['query']
-    q = match_phrase_prefix_query(field=field, query=query, index=index)
+    q = match_query(field=field, query=query, index=index)
     # analyze_match_query(field=field, query=query,
     #                     index=index, results=q['data'])
     response = jsonify(q)

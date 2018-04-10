@@ -3,7 +3,7 @@ from doctype import FlatUser
 
 connections.create_connection(hosts=['localhost'])
 
-flat_user = Index('flat_user')
+flat_user = Index('flat_user_3')
 
 flat_user.settings(
     number_of_shards=2,

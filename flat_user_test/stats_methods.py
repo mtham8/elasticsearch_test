@@ -39,3 +39,19 @@ def analyze_match_query(index, field, query, results):
         response = es.explain(index=index, body=body, doc_type='doc',
                               id=result['uuid'])
         print('explain response --> ', response)
+
+
+# reindex
+'''
+curl -XPOST 'localhost:9200/_reindex?pretty' -H 'Content-Type: application/json' -d'
+{
+  "source": {
+    "index": "flat_user_2"
+  },
+  "dest": {
+    "index": "flat_user_3"
+  }
+}
+'
+
+'''
