@@ -27,7 +27,7 @@ def get_mapping(index):
 def analyze_match_query(index, field, query, results):
     body = {
         "query": {
-            "match_phrase_prefix": {
+            "match": {
                 field: {
                     "query": query
                 }
@@ -46,10 +46,10 @@ def analyze_match_query(index, field, query, results):
 curl -XPOST 'localhost:9200/_reindex?pretty' -H 'Content-Type: application/json' -d'
 {
   "source": {
-    "index": "flat_user_2"
+    "index": "flat_user_3"
   },
   "dest": {
-    "index": "flat_user_3"
+    "index": "flat_user_4"
   }
 }
 '

@@ -1,5 +1,5 @@
 from elasticsearch_dsl import DocType, Text, Date, Float, Boolean, Keyword, Integer
-from analyzers import autocomplete, email_analyzer, autocomplete_search, address_search, postcode, postcode_search, suffix
+from analyzers import autocomplete, email_analyzer, autocomplete_search, postcode, postcode_search, suffix
 
 # abstraction of this should require index_name = <index_name>
 # then create a class method, get_index_by_name(index_name)
@@ -20,7 +20,7 @@ class FlatUser(DocType):
     annual_usage_percentage = Float()
 
     best_address = Text(analyzer=autocomplete,
-                        search_analyzer=address_search)
+                        search_analyzer=autocomplete_search)
 
     best_address_apartment = Text(analyzer=autocomplete,
                                   search_analyzer=autocomplete_search)
@@ -56,7 +56,7 @@ class FlatUser(DocType):
     green_button_datastream_uuid = Text(analyzer=autocomplete,
                                         search_analyzer=autocomplete_search)
     green_button_gateway_address = Text(analyzer=autocomplete,
-                                        search_analyzer=address_search)
+                                        search_analyzer=autocomplete_search)
     green_button_gateway_count = Float()
     green_button_gateway_uuid = Text(analyzer=autocomplete,
                                      search_analyzer=autocomplete_search)

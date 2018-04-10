@@ -2,19 +2,16 @@ from elasticsearch_dsl import analyzer, tokenizer
 
 autocomplete = analyzer('autocomplete',
                         tokenizer=tokenizer('autocomplete', 'ngram', min_gram=3,
-                                            max_gram=20, token_chars=['letter', 'digit']),
-                        filter=['lowercase']
+                                            max_gram=50, token_chars=['letter', 'digit']),
+                        filter=['lowercase', 'trim']
                         )
 
 email_analyzer = analyzer('email', tokenizer=tokenizer('email', 'ngram', min_gram=3,
-                                                       max_gram=100),
+                                                       max_gram=255),
                           filter=['lowercase'])
 
 autocomplete_search = analyzer(
-    'autocomplete_search', tokenizer='lowercase')
-
-address_search = analyzer(
-    'address_search', tokenizer='whitespace', filter=['trim', 'lowercase'])
+    'autocomplete_search', tokenizer='whitespace', filter=['trim', 'lowercase'])
 
 
 postcode = analyzer('postcode', tokenizer=tokenizer(
