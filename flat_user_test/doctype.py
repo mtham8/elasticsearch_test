@@ -1,4 +1,4 @@
-from elasticsearch_dsl import DocType, Text, Date, Float, Boolean, Keyword, Integer
+from elasticsearch_dsl import DocType, Text, Float, Boolean
 from analyzers import autocomplete, email_analyzer, autocomplete_search, postcode, postcode_search, suffix
 
 # abstraction of this should require index_name = <index_name>
@@ -213,9 +213,9 @@ class FlatUser(DocType):
                         search_analyzer=autocomplete_search)
 
     # setting multi=True creates an empty list by default
-    owners = Text(multi=True, analyzer=autocomplete,
+    owners = Text(multi=True, analyzer=email_analyzer,
                   search_analyzer=autocomplete_search)
-    owners_id = Integer(multi=True)
+    owners_id = Float(multi=True)
 
     demand_response_cohorts = Text(multi=True, analyzer=autocomplete,
                                    search_analyzer=autocomplete_search)

@@ -1,31 +1,18 @@
 import React, { PureComponent } from 'react'
 import PropTypes from 'prop-types'
 
-import { getFields } from '../helpers/fetchMethods'
-
-const { string, func } = PropTypes
+const { string, func, object } = PropTypes
 
 export default class FieldDropdown extends PureComponent {
   static propTypes = {
     field: string,
-    handleChange: func
-  }
-
-  state = {
-    fields: [],
-    isLoading: true
-  }
-
-  async componentDidMount () {
-    const fields = await getFields()
-    if (fields) {
-      this.setState({ fields, isLoading: false })
-    }
+    handleChange: func,
+    fields: object
   }
 
   generateOptions = () => {
-    const { fields } = this.state
-    return fields.map(field => (
+    const { fields } = this.props
+    return Object.keys(fields).map(field => (
       <option key={field} value={field}>
         {field}
       </option>
@@ -33,8 +20,7 @@ export default class FieldDropdown extends PureComponent {
   }
 
   render () {
-    const { field, handleChange } = this.props
-    const { isLoading, fields } = this.state
+    const { field, handleChange, isLoading } = this.props
 
     return (
       <div>

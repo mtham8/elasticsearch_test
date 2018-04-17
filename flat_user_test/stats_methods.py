@@ -17,7 +17,9 @@ def get_doc_count(index):
 def get_mapping(index):
     i = Index(index)
     mapping = i.get_mapping()
-    mappings = mapping[index]['mappings']['doc']['properties'].keys()
+    print('mapping --> ')
+    print(mapping[index]['mappings']['doc']['properties'])
+    mappings = mapping[index]['mappings']['doc']['properties']
     return mappings
 
 # get shards info
