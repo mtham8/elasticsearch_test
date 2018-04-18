@@ -123,17 +123,17 @@ const queryTypeMap = {
   boolean: booleanHandler
 }
 
-const encodeQuery = query => encodeURIComponent(query)
+// const encodeQuery = query => encodeURIComponent(query)
 
-export function queryBuilder (queries) {
+export function buildQuery (queries) {
   return queries.length !== 0
     ? queries.map(queryParams => {
       const { query1, query2, field, queryCondition } = queryParams
       return query1
         ? queryTypeMap[queryCondition]({
           field,
-          query1: encodeQuery(query1),
-          query2: encodeQuery(query2)
+          query1,
+          query2
         })
         : null
     })

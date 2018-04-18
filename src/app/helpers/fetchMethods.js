@@ -14,17 +14,11 @@ export async function getFields () {
   }
 }
 
-export async function search ({ field, query }) {
-  const url =
-    field.search('mac_id') > 0 ||
-    field === 'gbc_cisr_id' ||
-    field.search('uid') > 0
-      ? `${BASE_URL}/query_match_prefix`
-      : `${BASE_URL}/query_match`
+export async function search ({ queries }) {
+  const url = `${BASE_URL}/query`
 
   const body = {
-    field,
-    query
+    queries
   }
 
   try {

@@ -11,52 +11,52 @@ def create_doc(body, index, doctype, doc_id):
     print('saved_doc --> ', saved_doc)
 
 
-def match_query(field, query, index, **kwargs):
-    q = generate_match_query(field=field, query=query, **kwargs)
-    print('match query --> ', q)
-    return search_query(query=q, index=index, query_type='match')
+# def match_query(field, query, index, **kwargs):
+#     q = generate_match_query(field=field, query=query, **kwargs)
+#     print('match query --> ', q)
+#     return search_query(query=q, index=index, query_type='match')
 
 
-def match_phrase_prefix_query(field, query, index, **kwargs):
-    q = generate_match_query(field=field, query=query, **kwargs)
-    print('match_phrase_prefix query --> ', q)
-    return search_query(query=q, index=index, query_type='match_phrase_prefix')
+# def match_phrase_prefix_query(field, query, index, **kwargs):
+#     q = generate_match_query(field=field, query=query, **kwargs)
+#     print('match_phrase_prefix query --> ', q)
+#     return search_query(query=q, index=index, query_type='match_phrase_prefix')
 
 
-def multi_match_query(fields, query, index, **kwargs):
-    q = generate_multi_match_query(fields=fields, query=query, **kwargs)
-    print('multi_match_query --> ', q)
-    return search_query(query=q, index=index, query_type='multi_match')
+# def multi_match_query(fields, query, index, **kwargs):
+#     q = generate_multi_match_query(fields=fields, query=query, **kwargs)
+#     print('multi_match_query --> ', q)
+#     return search_query(query=q, index=index, query_type='multi_match')
 
 
-def query_string_query(fields, query, index, **kwargs):
-    q = generate_multi_match_query(fields=fields, query=query, **kwargs)
-    print('query_string_query --> ', q)
-    return search_query(query=q, index=index, query_type='query_string')
+# def query_string_query(fields, query, index, **kwargs):
+#     q = generate_multi_match_query(fields=fields, query=query, **kwargs)
+#     print('query_string_query --> ', q)
+#     return search_query(query=q, index=index, query_type='query_string')
 
 
-def term_query(field, query, index, **kwargs):
-    q = generate_term_query(field=field, query=query, **kwargs)
-    print('term query --> ', q)
-    return search_query(query=q, index=index, query_type='term')
+# def term_query(field, query, index, **kwargs):
+#     q = generate_term_query(field=field, query=query, **kwargs)
+#     print('term query --> ', q)
+#     return search_query(query=q, index=index, query_type='term')
 
 
-def range_query(field, index, **kwargs):
-    q = generate_range_query(field=field, **kwargs)
-    print('range query --> ', q)
-    return search_query(query=q, index=index, query_type='range')
+# def range_query(field, index, **kwargs):
+#     q = generate_range_query(field=field, **kwargs)
+#     print('range query --> ', q)
+#     return search_query(query=q, index=index, query_type='range')
 
 
-def prefix_query(field, query, index, **kwargs):
-    q = generate_prefix_query(field=field, query=query, **kwargs)
-    print('prefix query --> ', q)
-    return search_query(query=q, index=index, query_type='prefix')
+# def prefix_query(field, query, index, **kwargs):
+#     q = generate_prefix_query(field=field, query=query, **kwargs)
+#     print('prefix query --> ', q)
+#     return search_query(query=q, index=index, query_type='prefix')
 
 
-def ids_query(query, index):
-    q = generate_ids_query(query=query)
-    print('ids query --> ', q)
-    return search_query(query=q, index=index, query_type='ids')
+# def ids_query(query, index):
+#     q = generate_ids_query(query=query)
+#     print('ids query --> ', q)
+#     return search_query(query=q, index=index, query_type='ids')
 
 
 def generate_ids_query(query):
@@ -131,15 +131,30 @@ def generate_multi_match_query(fields, query, **kwargs):
     return query_obj
 
 
-def search_query(query, query_type, index):
+def search_query(queries, index):
     # TODO: create a base DocType class with method, get_index_by_name('dummy_movies')
     # TODO: create ability to search across indexes, using Search()
 
     s = Search(index=index)
     # adding dfs_query_then_fetch param improves overall doc score
 
+    query_obj = {
+        'must': [],
+        'must_not': [],
+        'filter': []
+    }
+
+    for query in queries:
+        if query != None:
+            q = Q(query['query'])
+            query_obj[query['query_type']].append(q)
+
+    print('query_obj --> ', query_obj)
+    total_queries = Q('bool', **query_obj)
+    s = s.query(total_queries)
+    print('query --> ', s.to_dict())
     # s = s.query(query_type, **query).params(search_type='dfs_query_then_fetch')
-    s = s.query(query_type, **query)
+    # s = s.query(query_type, **query)
 
     # by default, search only returns a subset of results
     # to get all results, you must slice to the last item

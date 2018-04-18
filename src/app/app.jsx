@@ -1,21 +1,17 @@
 import React, { PureComponent } from 'react'
 
-import FieldDropdown from './components/FieldDropdown'
-import QueryInput from './components/QueryInput'
 import ResultsList from './components/ResultsList'
-import QueryConditionDropdown from './components/QueryConditionDropdown'
+import QueryForm from './components/QueryForm'
 
 import { search, getFields } from './helpers/fetchMethods'
+import { buildQuery } from './helpers/queryHelpers'
 export default class App extends PureComponent {
   state = {
     fields: {},
-    field: '',
-    fieldType: '',
-    queryCondition: '',
-    query: '',
     results: [],
     hits: 0,
-    isLoading: true
+    isLoading: true,
+    queries: []
   }
 
   async componentDidMount () {
@@ -25,55 +21,60 @@ export default class App extends PureComponent {
     }
   }
 
-  handleChange = ({ target: { id, value } }) => {
-    this.setState({ [id]: value })
+  // handleQuery = async event => {
+  //   this.handleChange(event)
+  //   const { target: { value } } = event
+  //   const { field } = this.state
+
+  //   const results = await search({ field, query: value })
+  //   if (results) {
+  //     const { data, hits } = results
+  //     this.setState({ results: data, hits })
+  //   }
+  // }
+
+  handleQueryFormChange = (index, stateObj) => {
+    const queries = [...this.state.queries]
+    queries[index] = { ...queries[index], ...stateObj }
+    this.setState({ queries })
   }
 
-  handleFieldChange = ({ target: { id, value } }) => {
-    const { fields } = this.state
-    this.setState({ [id]: value, fieldType: fields[value].type })
+  addQueryForm = () => {
+    const queries = [...this.state.queries, {}]
+    this.setState({ queries })
   }
 
-  handleQuery = async event => {
-    this.handleChange(event)
-    const { target: { value } } = event
-    const { field } = this.state
-
-    const results = await search({ field, query: value })
+  submitQuery = async () => {
+    const { queries } = this.state
+    const builtQuery = buildQuery(queries)
+    console.log('builtQuery --> ', builtQuery)
+    const results = await search({ queries: builtQuery })
     if (results) {
-      const { data, hits } = results
-      this.setState({ results: data, hits })
+      console.log('results --> ', results)
+      this.setState({ results })
     }
   }
 
   render () {
-    const {
-      field,
-      query,
-      queryCondition,
-      results,
-      hits,
-      fieldType,
-      fields,
-      isLoading
-    } = this.state
+    const { fields, isLoading, queries } = this.state
     console.log('state --> ', this.state)
 
     return (
       <div className='search'>
-        <FieldDropdown
-          field={field}
-          fields={fields}
-          isLoading={isLoading}
-          handleChange={this.handleFieldChange}
-        />
-        <QueryConditionDropdown
-          fieldType={fieldType}
-          queryCondition={queryCondition}
-          handleChange={this.handleChange}
-        />
-        <QueryInput query={query} handleQuery={this.handleQuery} />
-        <ResultsList results={results} field={field} hits={hits} />
+        <button onClick={this.addQueryForm}>Add Query</button>
+        <button onClick={this.submitQuery}>Submit Query</button>
+        {queries.length > 0 &&
+          queries.map((query, index) => (
+            <QueryForm
+              key={index}
+              index={index}
+              fields={fields}
+              isLoading={isLoading}
+              handleQueryFormChange={this.handleQueryFormChange}
+              {...query}
+            />
+          ))}
+        {/* <ResultsList results={results} field={field} hits={hits} /> */}
       </div>
     )
   }

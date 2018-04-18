@@ -5,16 +5,17 @@ const { string, func } = PropTypes
 
 export default class QueryInput extends PureComponent {
   static propType = {
-    query: string,
+    value: string,
+    id: string,
     handleQuery: func
   }
 
   render () {
-    const { query, handleQuery } = this.props
+    const { value, handleQuery, id } = this.props
 
     return (
       <div className='input'>
-        <input id='query' value={query} onChange={handleQuery} />
+        <input id={id} value={value} onChange={handleQuery} />
       </div>
     )
   }
