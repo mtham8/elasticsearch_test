@@ -11,7 +11,9 @@ export default class App extends PureComponent {
     results: [],
     hits: 0,
     isLoading: true,
-    queries: []
+    queries: [
+      { field: 'utility_company.raw', queryCondition: 'match', query1: 'sce' }
+    ]
   }
 
   async componentDidMount () {

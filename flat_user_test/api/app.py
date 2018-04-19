@@ -7,7 +7,7 @@ sys.path.append(cwd)
 from flask import Flask, jsonify, request
 from flask_cors import CORS
 
-from flat_user_test.stats_methods import get_mapping, analyze_match_query
+from flat_user_test.stats_methods import get_mapping, analyze_match_query, get_aggregations
 from flat_user_test.query_methods import search_query
 
 # pagination
@@ -17,8 +17,8 @@ from flat_user_test.query_methods import search_query
 
 #     return data[start_index : end_index]
 
-index = 'flat_user_3'
 index = 'flat_user_4'
+index = 'flat_user_explicit_mapping'
 
 app = Flask(__name__)
 CORS(app)
@@ -27,7 +27,12 @@ CORS(app)
 @app.route('/get_fields', methods=['GET'])
 def get_fields():
     mapping = get_mapping(index=index)
-    return jsonify(mapping)
+    aggregations = get_aggregations(index=index, mapping=mapping)
+    response = {
+        'mapping': mapping,
+        'aggregations': aggregations
+    }
+    return jsonify(response)
 
 
 @app.route('/query', methods=['POST'])

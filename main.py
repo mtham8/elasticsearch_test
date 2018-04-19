@@ -2,7 +2,7 @@ from elasticsearch_dsl import Index
 
 from movie_test.query_movie_data import query_movie_data
 
-from flat_user_test.query_methods import match_query, match_phrase_prefix_query, multi_match_query, query_string_query, term_query, range_query, prefix_query, ids_query
+# from flat_user_test.query_methods import match_query, match_phrase_prefix_query, multi_match_query, query_string_query, term_query, range_query, prefix_query, ids_query
 
 from flat_user_test.stats_methods import get_mapping, get_doc_count, check_health
 
@@ -11,7 +11,7 @@ from flat_user_test.doctype import FlatUser
 
 
 def flat_user_test():
-    # index = 'flat_user'
+    # index = 'flat_user_explicit_mapping'
 
     # doctype = FlatUser
     # query_flat_user(index=index, doctype=doctype)

@@ -1,4 +1,4 @@
-from elasticsearch_dsl import DocType, Text, Float, Boolean
+from elasticsearch_dsl import DocType, Text, Float, Boolean, Keyword, MetaField
 from analyzers import autocomplete, email_analyzer, autocomplete_search, postcode, postcode_search, suffix
 
 # abstraction of this should require index_name = <index_name>
@@ -6,6 +6,13 @@ from analyzers import autocomplete, email_analyzer, autocomplete_search, postcod
 
 
 class FlatUser(DocType):
+    # base model generated fields
+    id = Float()
+    uuid = Text(analyzer=autocomplete,
+                search_analyzer=autocomplete_search)
+    last_updated = Float()
+    created_at = Float()
+
     profile_uuid = Text(analyzer=autocomplete,
                         search_analyzer=autocomplete_search)
 
@@ -27,7 +34,6 @@ class FlatUser(DocType):
     best_address_zipcode = Text(analyzer=postcode,
                                 search_analyzer=postcode_search)
 
-    created_at = Float()
     crm_last_updated = Float()
     crm_update_version = Text(analyzer='keyword')
     crm_updating_error_count = Text(analyzer='keyword')
@@ -48,6 +54,7 @@ class FlatUser(DocType):
     gbc_still_valid = Text(analyzer=autocomplete,
                            search_analyzer=autocomplete_search)
     gbc_utility = Text(analyzer=autocomplete,
+                       fields={'raw': Keyword()},
                        search_analyzer=autocomplete_search)
     green_button_datastream_count = Float()
     green_button_datastream_exists = Text(analyzer=autocomplete,
@@ -148,7 +155,9 @@ class FlatUser(DocType):
                     search_analyzer=autocomplete_search)
 
     utility_company = Text(analyzer=autocomplete,
+                           fields={'raw': Keyword()},
                            search_analyzer=autocomplete_search)
+
     utility_company_gbc_supported = Float()
     utility_credentials = Text(analyzer=autocomplete,
                                search_analyzer=autocomplete_search)
@@ -210,6 +219,7 @@ class FlatUser(DocType):
     best_data_resolution_seconds = Float()
 
     utility_rate = Text(analyzer=autocomplete,
+                        fields={'raw': Keyword()},
                         search_analyzer=autocomplete_search)
 
     # setting multi=True creates an empty list by default
@@ -234,6 +244,9 @@ class FlatUser(DocType):
     # these stand for perturbed lat/lng values of the end user
     p_lat = Float()
     p_lng = Float()
+
+    class Meta:
+        dynamic = MetaField(False)
 
     def save(self, **kwargs):
         return super(FlatUser, self).save(**kwargs)

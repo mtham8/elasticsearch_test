@@ -7,7 +7,7 @@ export async function getFields () {
   try {
     const response = await axios.get(url)
     console.log('field response --> ', response)
-    return response.data
+    return response.data.mapping
   } catch (err) {
     console.log('error --> ', err)
     return null

@@ -3,7 +3,7 @@ from doctype import FlatUser
 
 connections.create_connection(hosts=['localhost'])
 
-flat_user = Index('flat_user_4')
+flat_user = Index('flat_user_explicit_mapping_1')
 
 flat_user.settings(
     number_of_shards=2,
@@ -12,6 +12,6 @@ flat_user.settings(
 
 flat_user.doc_type(FlatUser)
 
-flat_user.create()
+# flat_user.create()
 
-# flat_user.delete()
+flat_user.delete()

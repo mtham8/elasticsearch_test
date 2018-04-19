@@ -1,4 +1,5 @@
-from elasticsearch_dsl import connections, Search, Q, Index
+from elasticsearch_dsl import connections, Search, Q, Index, A
+from pprint import pprint
 
 connections.create_connection(hosts=['localhost'])
 
@@ -130,6 +131,11 @@ def generate_multi_match_query(fields, query, **kwargs):
 
     return query_obj
 
+# def autocomplete_query(query, index):
+#     s = Search(index=index)
+#     q = Q(query)
+#     s = s.query(q)
+
 
 def search_query(queries, index):
     # TODO: create a base DocType class with method, get_index_by_name('dummy_movies')
@@ -137,6 +143,11 @@ def search_query(queries, index):
 
     s = Search(index=index)
     # adding dfs_query_then_fetch param improves overall doc score
+    # s = s.query(query_type, **query).params(search_type='dfs_query_then_fetch')
+    # s = s.query(query_type, **query)
+
+    a = A('terms', field='gbc_utility.raw')
+    s.aggs.bucket('utility_company_terms', a)
 
     query_obj = {
         'must': [],
@@ -149,12 +160,9 @@ def search_query(queries, index):
             q = Q(query['query'])
             query_obj[query['query_type']].append(q)
 
-    print('query_obj --> ', query_obj)
     total_queries = Q('bool', **query_obj)
     s = s.query(total_queries)
     print('query --> ', s.to_dict())
-    # s = s.query(query_type, **query).params(search_type='dfs_query_then_fetch')
-    # s = s.query(query_type, **query)
 
     # by default, search only returns a subset of results
     # to get all results, you must slice to the last item
@@ -163,6 +171,7 @@ def search_query(queries, index):
     # s = s[0:total]
 
     response = s.execute()
+    pprint(response.aggregations)
     # for h in response:
     #     print(h.to_dict())
     #     print('%s returned with score %f' % (
