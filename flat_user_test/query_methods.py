@@ -142,9 +142,6 @@ def search_query(queries, index):
     # TODO: create ability to search across indexes, using Search()
 
     s = Search(index=index)
-    # adding dfs_query_then_fetch param improves overall doc score
-    # s = s.query(query_type, **query).params(search_type='dfs_query_then_fetch')
-    # s = s.query(query_type, **query)
 
     query_obj = {
         'must': [],
@@ -161,19 +158,13 @@ def search_query(queries, index):
     s = s.query(total_queries)
     print('query --> ', s.to_dict())
 
-    # by default, search only returns a subset of results
-    # to get all results, you must slice to the last item
+    response = s
 
-    response = s.execute()
-    # for h in response:
-    #     print(h.to_dict())
-    #     print('%s returned with score %f' % (
-    #         h.meta.id, h.meta.score))
-    hits = response.hits.total
-    print('hits --> ', hits)
+    print('count --> ', response.count())
 
-    response = {
-        'hits': hits,
+    response_obj = {
+        'hits': response.count(),
         'data': [h.to_dict() for h in response]
     }
-    return response
+
+    return response_obj

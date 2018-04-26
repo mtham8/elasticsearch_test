@@ -1,4 +1,4 @@
-from elasticsearch_dsl import connections, Search, Q, Index, A
+from elasticsearch_dsl import connections, Search, Q
 from pprint import pprint
 
 connections.create_connection(hosts=['localhost'])
@@ -10,13 +10,8 @@ class BaseQueryManager(object):
                    'exclude', 'range', 'boolean', 'raw', 'sort']
 
     @classmethod
-    def parse_query(cls, queries, query_set=None):
-        if query_set == None:
-            query_set = []
-
-        if not isinstance(query_set, list):
-            raise TypeError(
-                'A query_set must be a list of parsed queries. Check parse_query_list method.')
+    def parse_query(cls, queries):
+        query_set = []
 
         if not isinstance(queries, list):
             queries = [queries]
@@ -52,7 +47,7 @@ class BaseQueryManager(object):
             raise ValueError(error_message.format(query_type=query_type))
 
     @classmethod
-    def load_query(cls, query_set):
+    def load_query(cls, query_set, index):
         boolean_query_map = {
             'must': [],
             'must_not': [],
@@ -65,18 +60,44 @@ class BaseQueryManager(object):
 
         print('boolean_query_map --> ', boolean_query_map)
         boolean_query = Q('bool', **boolean_query_map)
-        return boolean_query
+
+        s = Search(index=index)
+        s = s.query(boolean_query)
+        return s
 
     @classmethod
-    def update_query(cls, query_type, field=None, value=None, raw_query=None, query_set=None):
-        query_obj = {
+    def update_query(cls, query_type, field=None, value=None, raw_query=None, queries=None):
+        if queries == None:
+            queries = []
+
+        query_obj = cls._set_query_obj(
+            query_type=query_type, field=field, value=value, raw_query=raw_query)
+
+        queries.append(query_obj)
+
+        return queries
+
+    @classmethod
+    def override_and_parse_query(cls, query_type, field=None, value=None, raw_query=None, queries=None):
+        if queries == None:
+            queries = []
+
+        query_obj = cls._set_query_obj(
+            query_type=query_type, field=field, value=value, raw_query=raw_query)
+
+        queries = [query for query in queries if query['field'] != field]
+        queries.append(query_obj)
+
+        return cls.parse_query(queries=queries)
+
+    @classmethod
+    def _set_query_obj(cls, query_type, field=None, value=None, raw_query=None):
+        return {
             'query_type': query_type,
             'field': field,
             'value': value,
             'raw_query': raw_query
         }
-
-        return cls.parse_query(queries=query_obj, query_set=query_set)
 
     @classmethod
     def _set_query(cls, query, occurrence_type):
