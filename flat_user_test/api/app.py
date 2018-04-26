@@ -17,8 +17,7 @@ from flat_user_test.query_methods import search_query
 
 #     return data[start_index : end_index]
 
-index = 'flat_user_4'
-index = 'flat_user_explicit_mapping'
+index = 'flat_user_explicit_mapping_1'
 
 app = Flask(__name__)
 CORS(app)
@@ -46,4 +45,4 @@ def query():
 
 
 if __name__ == '__main__':
-    app.run(debug=True)
+    app.run(debug=True, threaded=True)

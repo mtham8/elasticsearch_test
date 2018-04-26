@@ -218,6 +218,7 @@ class FlatUser(DocType):
                                 search_analyzer=autocomplete_search)
     best_data_resolution_seconds = Float()
 
+    # may potentially just store as keyword instead
     utility_rate = Text(analyzer=autocomplete,
                         fields={'raw': Keyword()},
                         search_analyzer=autocomplete_search)

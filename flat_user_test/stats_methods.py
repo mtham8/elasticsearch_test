@@ -24,7 +24,6 @@ def get_mapping(index):
 
 
 def get_aggregations(index, mapping):
-    s = Search(index=index)
     body = {
         'size': 0,
         'aggs': {}
@@ -37,7 +36,8 @@ def get_aggregations(index, mapping):
                     'field': agg_field
                 }
             }
-    s = s.from_dict(body)
+
+    s = Search().from_dict(body).index(index)
     response = s.execute().to_dict()
     pprint(response)
     response_obj = {}

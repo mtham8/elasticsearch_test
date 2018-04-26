@@ -1,2 +1,57 @@
-*{font-family:Helvetica,sans-serif;font-size:.9rem}html{height:100vh!important;width:100vw!important;overflow:hidden!important}body{height:100%!important;width:100%!important;overflow:auto!important;-webkit-overflow-scrolling:touch!important;position:relative!important}.fill{width:10px;display:inline-block}.search{padding-top:1.2rem;display:flex;flex-direction:column;align-items:center;justify-content:center}.search input{width:300px;line-height:1.5}.search .select{padding:.8rem 0}.search .query-form{border:.5px solid rgba(0,0,0,.15);padding:.8rem;margin:.8rem 0}.search .results-list{display:flex}.search .expanded-result{padding:.9rem;margin:0 1rem;border:.5px solid rgba(0,0,0,.15);width:600px;height:600px;overflow:scroll}.search .expanded-detail{display:flex;flex-direction:row;justify-content:space-between}.search .results{border:.5px solid rgba(0,0,0,.15);padding:.9rem;flex-direction:column}.search .results .result{border-bottom:.5px solid rgba(0,0,0,.15);padding:.5rem 0}
+* {
+  font-family: Helvetica, sans-serif;
+  font-size: 0.9rem; }
+
+html {
+  height: 100vh !important;
+  width: 100vw !important;
+  overflow: hidden !important; }
+
+body {
+  height: 100% !important;
+  width: 100% !important;
+  overflow: auto !important;
+  -webkit-overflow-scrolling: touch !important;
+  position: relative !important; }
+
+.fill {
+  width: 10px;
+  display: inline-block; }
+
+.search {
+  padding-top: 1.2rem;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center; }
+  .search input {
+    width: 300px;
+    line-height: 1.5; }
+  .search .select {
+    padding: 0.8rem 0; }
+  .search .query-form {
+    border: 0.5px solid rgba(0, 0, 0, 0.15);
+    padding: 0.8rem;
+    margin: 0.8rem 0; }
+  .search .results-list {
+    display: flex; }
+  .search .expanded-result {
+    padding: 0.9rem;
+    margin: 0 1rem;
+    border: 0.5px solid rgba(0, 0, 0, 0.15);
+    width: 600px;
+    height: 600px;
+    overflow: scroll; }
+  .search .expanded-detail {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between; }
+  .search .results {
+    border: 0.5px solid rgba(0, 0, 0, 0.15);
+    padding: 0.9rem;
+    flex-direction: column; }
+    .search .results .result {
+      border-bottom: 0.5px solid rgba(0, 0, 0, 0.15);
+      padding: 0.5rem 0; }
+
 /*# sourceMappingURL=client.css.map*/

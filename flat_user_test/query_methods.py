@@ -146,9 +146,6 @@ def search_query(queries, index):
     # s = s.query(query_type, **query).params(search_type='dfs_query_then_fetch')
     # s = s.query(query_type, **query)
 
-    a = A('terms', field='gbc_utility.raw')
-    s.aggs.bucket('utility_company_terms', a)
-
     query_obj = {
         'must': [],
         'must_not': [],
@@ -167,11 +164,7 @@ def search_query(queries, index):
     # by default, search only returns a subset of results
     # to get all results, you must slice to the last item
 
-    # total = s.count()
-    # s = s[0:total]
-
     response = s.execute()
-    pprint(response.aggregations)
     # for h in response:
     #     print(h.to_dict())
     #     print('%s returned with score %f' % (

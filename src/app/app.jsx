@@ -12,7 +12,12 @@ export default class App extends PureComponent {
     hits: 0,
     isLoading: true,
     queries: [
-      { field: 'utility_company.raw', queryCondition: 'match', query1: 'sce' }
+      {
+        field: 'utility_company.raw',
+        queryCondition: 'match',
+        fieldType: 'text',
+        query1: 'sce'
+      }
     ]
   }
 

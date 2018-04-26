@@ -12,6 +12,6 @@ flat_user.settings(
 
 flat_user.doc_type(FlatUser)
 
-# flat_user.create()
+flat_user.create()
 
-flat_user.delete()
+# flat_user.delete()

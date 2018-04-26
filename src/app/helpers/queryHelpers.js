@@ -123,8 +123,6 @@ const queryTypeMap = {
   boolean: booleanHandler
 }
 
-// const encodeQuery = query => encodeURIComponent(query)
-
 export function buildQuery (queries) {
   return queries.length !== 0
     ? queries.map(queryParams => {
