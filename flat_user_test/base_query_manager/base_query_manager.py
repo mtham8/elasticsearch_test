@@ -4,7 +4,7 @@ from pprint import pprint
 connections.create_connection(hosts=['localhost'])
 
 
-class BaseQueryManager(object):
+class BaseESQueryManager(object):
 
     QUERY_TYPES = ['contains', 'exists', 'missing',
                    'exclude', 'range', 'boolean', 'raw', 'sort']
@@ -78,17 +78,19 @@ class BaseQueryManager(object):
         return queries
 
     @classmethod
-    def override_and_parse_query(cls, query_type, field=None, value=None, raw_query=None, queries=None):
+    def override_query(cls, query_type, field=None, value=None, raw_query=None, queries=None):
         if queries == None:
             queries = []
 
         query_obj = cls._set_query_obj(
             query_type=query_type, field=field, value=value, raw_query=raw_query)
 
-        queries = [query for query in queries if query['field'] != field]
+        # filter out old query then append new query to ensure the new query is appended whether or not the old query exists
+        # this is important when override_query is used to override permissions
+        queries = [q for q in queries if q['field'] != field]
         queries.append(query_obj)
 
-        return cls.parse_query(queries=queries)
+        return queries
 
     @classmethod
     def _set_query_obj(cls, query_type, field=None, value=None, raw_query=None):
