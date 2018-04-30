@@ -20,6 +20,13 @@ class BaseESIndexAPI(object):
         method = getattr(self, self.method_type)
         method()
 
+    def get_mapping_and_aggs(self):
+        mapping = self.Manager.get_mapping(index_name=self.index_name)
+        aggregations = self.Manager.get_aggregations(
+            index_name=self.index_name, mapping=mapping)
+
+        self.response = dict(mapping=mapping, aggregations=aggregations)
+
     def query(self):
         queries = self.query_data['query']
         # TODO: update this to the username returned after authenticating
@@ -32,10 +39,10 @@ class BaseESIndexAPI(object):
         parsed_queries = self.Manager.parse_query(queries=permitted_queries)
 
         loaded_queries = self.Manager.load_query(
-            query_set=parsed_queries, index=self.index_name)
+            query_set=parsed_queries, index_name=self.index_name)
 
         self.set_response(
-            data=loaded_queries, data_length=loaded_queries.count(), response_type='query')
+            data=loaded_queries, data_length=loaded_queries.count(), response_type=self.index_name)
 
     def set_response(self, data, data_length=None, response_type=None, is_formatted=True):
         meta_data = self._set_base_meta_data(

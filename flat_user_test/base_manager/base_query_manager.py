@@ -47,7 +47,7 @@ class BaseESQueryManager(object):
             raise ValueError(error_message.format(query_type=query_type))
 
     @classmethod
-    def load_query(cls, query_set, index):
+    def load_query(cls, query_set, index_name):
         boolean_query_map = {
             'must': [],
             'must_not': [],
@@ -61,7 +61,7 @@ class BaseESQueryManager(object):
         print('boolean_query_map --> ', boolean_query_map)
         boolean_query = Q('bool', **boolean_query_map)
 
-        s = Search(index=index)
+        s = Search(index=index_name)
         s = s.query(boolean_query)
         return s
 
