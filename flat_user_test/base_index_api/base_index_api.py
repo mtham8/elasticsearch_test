@@ -25,6 +25,7 @@ class BaseESIndexAPI(object):
         aggregations = self.Manager.get_aggregations(
             index_name=self.index_name, mapping=mapping)
 
+        # TODO: add serializer to remove hidden fields
         self.response = dict(mapping=mapping, aggregations=aggregations)
 
     def query(self):
