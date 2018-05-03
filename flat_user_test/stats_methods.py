@@ -28,12 +28,12 @@ def get_aggregations(index, mapping):
         'size': 0,
         'aggs': {}
     }
+    pprint(mapping)
     for key, value in mapping.items():
-        if value.get('fields', None) != None:
-            agg_field = '{utility}.raw'.format(utility=key)
+        if value.get('type') == 'keyword':
             body['aggs'][key] = {
                 'terms': {
-                    'field': agg_field
+                    'field': key
                 }
             }
 
@@ -72,10 +72,10 @@ def analyze_match_query(index, field, query, results):
 curl -XPOST 'localhost:9200/_reindex?pretty' -H 'Content-Type: application/json' -d'
 {
   "source": {
-    "index": "flat_user_explicit_mapping"
+    "index": "flat_user_explicit_mapping_1"
   },
   "dest": {
-    "index": "flat_user_explicit_mapping_1"
+    "index": "flat_user_explicit_mapping_2"
   }
 }
 '

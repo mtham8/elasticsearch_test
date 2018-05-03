@@ -2,7 +2,7 @@ from elasticsearch_dsl import analyzer, tokenizer
 
 autocomplete = analyzer('autocomplete',
                         tokenizer=tokenizer('autocomplete', 'ngram', min_gram=3,
-                                            max_gram=50, token_chars=['letter', 'digit']),
+                                            max_gram=100, token_chars=['letter', 'digit']),
                         filter=['lowercase', 'trim']
                         )
 
