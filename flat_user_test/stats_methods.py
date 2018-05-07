@@ -28,7 +28,7 @@ def get_aggregations(index, mapping):
         'size': 0,
         'aggs': {}
     }
-    pprint(mapping)
+    # pprint(mapping)
     for key, value in mapping.items():
         if value.get('type') == 'keyword':
             body['aggs'][key] = {
@@ -39,7 +39,7 @@ def get_aggregations(index, mapping):
 
     s = Search().from_dict(body).index(index)
     response = s.execute().to_dict()
-    pprint(response)
+    # pprint(response)
     response_obj = {}
     for key, value in response.get('aggregations', {}).items():
         response_obj[key] = value['buckets']

@@ -8,7 +8,7 @@ from flask import Flask, jsonify, request
 from flask_cors import CORS
 
 from flat_user_test.stats_methods import get_mapping, analyze_match_query, get_aggregations
-from flat_user_test.query_methods import search_query
+from flat_user_test.query_methods import search_query, sort_dr_points_query
 
 # pagination
 # def _paginate(self, data):
@@ -27,9 +27,11 @@ CORS(app)
 def get_fields():
     mapping = get_mapping(index=index)
     aggregations = get_aggregations(index=index, mapping=mapping)
+    sort_dr_points = sort_dr_points_query(index=index)
     response = {
         'mapping': mapping,
-        'aggregations': aggregations
+        'aggregations': aggregations,
+        'sort': sort_dr_points
     }
     return jsonify(response)
 

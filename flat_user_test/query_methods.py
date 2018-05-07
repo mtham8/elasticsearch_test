@@ -137,6 +137,22 @@ def generate_multi_match_query(fields, query, **kwargs):
 #     s = s.query(q)
 
 
+def sort_dr_points_query(index):
+    s = Search().index(index)
+    # sort_obj = {
+    #     'demand_response_total_points_earned': 'desc'
+    # }
+    s = s.sort('-demand_response_total_points_earned')
+    response = s.execute()
+    # print('sort --> ', s.to_dict())
+
+    response_obj = {
+        'data': [r.to_dict() for r in response]
+    }
+
+    return response_obj
+
+
 def search_query(queries, index):
     # TODO: create a base DocType class with method, get_index_by_name('dummy_movies')
     # TODO: create ability to search across indexes, using Search()

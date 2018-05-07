@@ -13,7 +13,7 @@ export default class App extends PureComponent {
     isLoading: true,
     queries: [
       {
-        field: 'utility_company.raw',
+        field: 'utility_company.keyword',
         queryCondition: 'match',
         fieldType: 'text',
         query1: 'sce'
